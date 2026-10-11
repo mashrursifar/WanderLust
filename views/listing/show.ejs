@@ -49,19 +49,19 @@
 
         <h4>Leave a review</h4>
 
-        <fieldset class="starability-slot">
-            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
-            <input type="radio" id="second-rate1" name="rating" value="1" />
-            <label for="second-rate1" title="Terrible">1 star</label>
-            <input type="radio" id="second-rate2" name="rating" value="2" />
-            <label for="second-rate2" title="Not good">2 stars</label>
-            <input type="radio" id="second-rate3" name="rating" value="3" />
-            <label for="second-rate3" title="Average">3 stars</label>
-            <input type="radio" id="second-rate4" name="rating" value="4" />
-            <label for="second-rate4" title="Very good">4 stars</label>
-            <input type="radio" id="second-rate5" name="rating" value="5" />
-            <label for="second-rate5" title="Amazing">5 stars</label>
+         <fieldset class="rating-input rating-black" aria-label="Choose a rating">
+          <input id="rating-5" type="radio" name="rating" value="5" required>
+          <label for="rating-5" title="5 stars">★</label>
+          <input id="rating-4" type="radio" name="rating" value="4">
+          <label for="rating-4" title="4 stars">★</label>
+          <input id="rating-3" type="radio" name="rating" value="3">
+          <label for="rating-3" title="3 stars">★</label>
+          <input id="rating-2" type="radio" name="rating" value="2">
+          <label for="rating-2" title="2 stars">★</label>
+          <input id="rating-1" type="radio" name="rating" value="1">
+          <label for="rating-1" title="1 star">★</label>
         </fieldset>
+
         <textarea
             required
             class="form-control mb-1"
@@ -99,9 +99,8 @@
 
                         <p class="card-text">
                            <b>@<%= list.author.username %></b> <br>
-                           <p class="starability-result" data-rating="<%= list.rating %>">
-                            Rated: 3 stars
-                            </p>
+                        
+                            <span class="rating-stars rating-black rating-<%= list.rating %>" role="img"></span><br>
                             <%= list.comment %>
                         </p>
 

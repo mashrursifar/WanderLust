@@ -1,0 +1,87 @@
+/*
+  Interactive rating:
+  <fieldset class="rating-input">
+    <input id="rating-5" type="radio" name="rating" value="5">
+    <label for="rating-5">5 stars</label>
+    ...repeat down to 1...
+  </fieldset>
+
+  The checked radio submits a number (1–5) with the form.
+
+  Static display:
+  <span class="rating-stars rating-4" role="img" aria-label="4 out of 5 stars"></span>
+*/
+:root {
+  --rating-star-size: 1.5rem;
+  --rating-star-color: #f5a623;
+  --rating-star-empty: #d1d5db;
+}
+
+/* Clickable, keyboard-accessible 1–5 rating control */
+.rating-input {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.1em;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rating-input input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.rating-input label {
+  color: var(--rating-star-empty);
+  cursor: pointer;
+  font-size: var(--rating-star-size);
+  line-height: 1;
+}
+
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input:checked ~ label {
+  color: var(--rating-star-color);
+}
+
+.rating-input input:focus-visible + label {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* Static, class-based display. Use .rating-0 through .rating-5. */
+.rating-stars {
+  display: inline-block;
+  font-size: var(--rating-star-size);
+  line-height: 1;
+  white-space: nowrap;
+  position: relative;
+}
+
+.rating-stars::before {
+  content: "★★★★★";
+  background: linear-gradient(90deg, var(--rating-star-color) var(--rating-fill, 0%), var(--rating-star-empty) var(--rating-fill, 0%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.rating-stars.rating-0 { --rating-fill: 0%; }
+.rating-stars.rating-1 { --rating-fill: 20%; }
+.rating-stars.rating-2 { --rating-fill: 40%; }
+.rating-stars.rating-3 { --rating-fill: 60%; }
+.rating-stars.rating-4 { --rating-fill: 80%; }
+.rating-stars.rating-5 { --rating-fill: 100%; }
+
+/* Optional size and color variants */
+.rating-sm { --rating-star-size: 1rem; }
+.rating-lg { --rating-star-size: 2rem; }
+.rating-blue { --rating-star-color: #2563eb; }
+.rating-green { --rating-star-color: #15803d; }
+.rating-black { --rating-star-color: #2e2828; }
