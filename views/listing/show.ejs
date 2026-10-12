@@ -107,7 +107,9 @@
                         <!-- <p class="card-text">
                             Rating: <%= list.rating %> star
                         </p> -->
+                        <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
                         <button class="btn btn-outline-dark">Delete</button>
+                        <% } %>
                     </div>
                 </div>
                </form>
