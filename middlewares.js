@@ -3,7 +3,9 @@ const Review = require("./models/review");
 const { schema } = require("./schemaValidation");
 const { reviewValidation } = require("./reviewValidation.js");
 const { userValidation } = require("./userValidation.js");
+const { upload } = require("./cloudConfig.js");
 const ExpressError = require("./utils/ExpressError.js");
+
 module.exports.isAuthenticate = (req, res, next) => {
     if (!req.isAuthenticated()) {
         // console.log(req.method);
@@ -73,9 +75,8 @@ module.exports.validateReview = (req, res, next) => {
     }
 };
 
-module.exports.userValidate = (req, res, next)=>{
-
-    const {error, value} = userValidation.validate(req.body);
+module.exports.userValidate = (req, res, next) => {
+    const { error, value } = userValidation.validate(req.body);
 
     if (error) {
         throw new ExpressError(400, error.message);
@@ -83,4 +84,23 @@ module.exports.userValidate = (req, res, next)=>{
         req.body = value;
         next();
     }
-}
+};
+
+module.exports.handleUpload = (req, res, next) => {
+    upload.single("image.url")(req, res, (err) => {
+        if (err) {
+            
+            if (err.code === "LIMIT_FILE_SIZE") {
+                err.message = "File size must be less than 10 MB.";
+            } else if (err.code === "LIMIT_UNEXPECTED_FILE") {
+                err.message = "Unexpected file field or too many files.";
+            } else if (err.message === "INVALID_FILE_TYPE") {
+                err.message = "Only JPG, JPEG, and PNG files are allowed.";
+            }
+
+            return next(err);
+        }
+
+        next();
+    });
+};

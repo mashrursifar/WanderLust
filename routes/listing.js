@@ -5,11 +5,11 @@ const {
     isAuthenticate,
     isOwner,
     validateListing,
+    handleUpload,
 } = require("../middlewares.js");
 const listingController = require("../controllers/listingController.js");
-const multer = require("multer");
-const { storage } = require("../cloudConfig.js");
-const upload = multer({ storage });
+
+
 
 router
     .route("/")
@@ -17,7 +17,7 @@ router
     .post(
         // New Listing: form->data->add listing
         isAuthenticate,
-        upload.single("image.url"),
+        handleUpload,
         validateListing,
         wrapAsync(listingController.createNewListing),
     );
@@ -35,7 +35,7 @@ router
         // Edit in DB
         isAuthenticate,
         isOwner,
-        upload.single("image.url"),
+        handleUpload,
         validateListing,
         wrapAsync(listingController.updateListing),
     )
@@ -49,7 +49,5 @@ router
 router
     .route("/:id/edit")
     .get(isAuthenticate, isOwner, wrapAsync(listingController.renderEditForm));
-
-
 
 module.exports = router;
