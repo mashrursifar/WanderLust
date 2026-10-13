@@ -4,10 +4,10 @@
     
     <div class="row show-container ">
         <br>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <h1> <%= listing.title %> </h1>
         </div>
-        <div class="card col-md-8 card-listings">
+        <div class="card col-md-10 card-listings">
             <img src="<%= listing.image.url %>" class="card-img-top" alt="img-defult">
         
             <div class="card-body">
@@ -40,7 +40,7 @@
     <hr>
 
     <!-- Review Form -->
-<div class="col-sm-8 mx-auto review">
+<div class="col-md-10 mx-auto review">
 
     <form action="/listing/<%= listing._id %>/reviews"
           method="post"
@@ -82,47 +82,76 @@
 </div>
 
 
-<!-- Reviews -->
-<div class="col-md-8 mx-auto review-listings">
 
-    <div class="row g-2">
 
-        <% for(let list of listing.review){ %>
 
-            <div class="col-sm-6">
-                <form 
-                action="/listing/<%= listing._id %>/reviews/<%= list._id %>?_method=Delete"
-                     method="post">
+<!-- Reviews re structures  -->
 
-                <div class="card h-100">
-                    <div class="card-body">
 
-                        <p class="card-text">
-                           <b>@<%= list.author.username %></b> <br>
-                        
-                            <span class="rating-stars rating-black rating-<%= list.rating %>" role="img"></span><br>
-                            <%= list.comment %>
-                        </p>
 
-                        <!-- <p class="card-text">
-                            Rating: <%= list.rating %> star
-                        </p> -->
-                        <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
-                        <button class="btn btn-outline-dark">Delete</button>
-                        <% } %>
+<!-- Reviews Display -->
+<div class="row">
+    <div class="col-md-10 mx-auto review-listings">
+        <div class="row g-3">
+
+            <% for (let list of listing.review) { %>
+                <div class="col-md-6">
+                    <div class="card review-card h-100">
+                        <div class="card-body">
+
+                            <div class="review-header">
+                                <div class="review-user">
+                                    <div class="review-avatar">
+                                        <%= list.author.username.charAt(0).toUpperCase() %>
+                                    </div>
+
+                                    <div>
+                                        <h6 class="review-username">
+                                            <%= list.author.username %>
+                                        </h6>
+
+                                        <span
+                                            class="rating-stars rating-black rating-<%= list.rating %>"
+                                            role="img"
+                                            aria-label="<%= list.rating %> out of 5 stars">
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <% if (currUser && currUser._id.equals(list.author._id)) {  %>
+
+                                    <form
+                                        action="/listing/<%= listing._id %>/reviews/<%= list._id %>?_method=DELETE"
+                                        method="POST">
+
+                                        <button type="submit"
+                                            class="review-delete"
+                                            aria-label="Delete review"
+                                            title="Delete review">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+
+                                <% } %>
+                            </div>
+
+                            <p class="review-comment">
+                                <%= list.comment %>
+                            </p>
+
+                        </div>
                     </div>
                 </div>
-               </form>
+            <% } %>
 
-            </div>
-
-        <% } %>
-
+        </div>
     </div>
-
 </div>
 
-<div class="col-md-8 mx-auto mb-3 mt-2">
+
+
+
+<div class="col-md-10 mx-auto mb-3 mt-2">
     <div id="map"></div>
 </div>
 
