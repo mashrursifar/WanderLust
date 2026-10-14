@@ -6,7 +6,7 @@ const geocodingClient = mbxGeocode({ accessToken: mapToken });
 const Fuse = require("fuse.js")
 
 module.exports.index = async (req, res) => {
-    const {search} = req.query;
+    const {search,tag} = req.query;
     
     let allListings= await Listing.find({});
 
@@ -19,6 +19,12 @@ module.exports.index = async (req, res) => {
         const results = fuse.search(search.trim());
 
         allListings = results.map((result) => result.item);
+    }
+
+    if(tag && tag.trim()!==""){
+        allListings = allListings.filter((listing)=> {
+            tag.includes(listing);
+        })
     }
     res.render("listing/listing.ejs", { allListings });
 };
