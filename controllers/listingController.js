@@ -5,10 +5,9 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocode({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-    let {search} = req.query;
-    console.log(search);
+    const {search} = req.query;
     
-    const allListings = await Listing.find({});
+    const allListings= search?await Listing.find({location:search}):await Listing.find({});
 
     res.render("listing/listing.ejs", { allListings });
 };
