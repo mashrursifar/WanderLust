@@ -3,12 +3,23 @@ const ExpressError = require("../utils/ExpressError.js");
 const mbxGeocode = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocode({ accessToken: mapToken });
+const Fuse = require("fuse.js")
 
 module.exports.index = async (req, res) => {
     const {search} = req.query;
     
-    const allListings= search?await Listing.find({location:search}):await Listing.find({});
+    let allListings= await Listing.find({});
 
+    if(search && search.trim()!== ""){
+        const fuse = new Fuse(allListings, {
+            keys: ["location"],
+            threshold: 0.3,
+        });
+        
+        const results = fuse.search(search.trim());
+
+        allListings = results.map((result) => result.item);
+    }
     res.render("listing/listing.ejs", { allListings });
 };
 
