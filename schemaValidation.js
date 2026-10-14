@@ -10,5 +10,22 @@ module.exports.schema = Joi.object({
 
         "image.url": Joi.string().trim().uri().allow("", null),
         
+        tags: Joi.array()
+            .items(
+                Joi.string().valid(
+                    "Rooms",
+                    "Iconic Cities",
+                    "Mountains",
+                    "Castles",
+                    "Amazing Pools",
+                    "Camping",
+                    "Farms",
+                    "Arctics",
+                    "Domes",
+                    "Boats"
+                )
+            )
+            .default([])
+    
    
 });

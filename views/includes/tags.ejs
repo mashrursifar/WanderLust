@@ -1,0 +1,105 @@
+<div>
+    <label class="form-label" for="tagSearch">
+        Categories:
+    </label>
+
+    <div class="tag-select" id="tagSelect">
+
+        <!-- Dropdown trigger -->
+        <div
+            class="tag-select-control"
+            id="tagSelectControl"
+            tabindex="0"
+            role="button"
+            aria-expanded="false"
+            aria-controls="tagDropdown"
+        >
+            <div class="selected-tags" id="selectedTags">
+                <span class="tag-placeholder">
+                    Choose categories...
+                </span>
+            </div>
+
+            <span class="tag-arrow">&#9662;</span>
+        </div>
+
+        <!-- Dropdown menu -->
+        <div class="tag-dropdown" id="tagDropdown" hidden>
+
+            <!-- Search input -->
+            <div class="tag-search">
+                <input
+                    type="text"
+                    id="tagSearch"
+                    class="form-control"
+                    placeholder="Search categories..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <!-- Category options -->
+            <div class="tag-options" id="tagOptions">
+
+                <% const categories = [
+                    "Rooms",
+                    "Iconic Cities",
+                    "Mountains",
+                    "Castles",
+                    "Amazing Pools",
+                    "Camping",
+                    "Farms",
+                    "Arctics",
+                    "Domes",
+                    "Boats"
+                ]; %>
+
+                <% categories.forEach(category => { %>
+                    <label class="tag-option">
+                        <input
+                            type="checkbox"
+                            name="tags"
+                            value="<%= category %>"
+                            class="tag-checkbox"
+                            <%= (listing?.tags || []).includes(category)
+                                ? "checked" : "" %>
+                        >
+
+                        <span class="tag-option-name">
+                            <%= category %>
+                        </span>
+
+                        <span class="tag-check">&#10003;</span>
+                    </label>
+                <% }) %>
+
+                <p class="tag-no-results" hidden>
+                    No categories found.
+                </p>
+            </div>
+
+            <!-- Footer actions -->
+            <div class="tag-dropdown-footer">
+                <button
+                    type="button"
+                    class="btn btn-sm btn-link text-secondary"
+                    id="clearTags"
+                >
+                    Clear all
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-sm btn-dark"
+                    id="applyTags"
+                >
+                    Done
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-text">
+        Select one or more categories for your listing.
+    </div>
+</div>

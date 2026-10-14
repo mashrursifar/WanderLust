@@ -24,7 +24,7 @@ module.exports.index = async (req, res) => {
 };
 
 module.exports.renderNewListingForm = (req, res) => {
-    res.render("listing/new.ejs");
+    res.render("listing/new.ejs",{listing: { tags: [] }});
 };
 
 module.exports.showListing = async (req, res) => {
