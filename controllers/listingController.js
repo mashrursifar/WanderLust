@@ -3,34 +3,33 @@ const ExpressError = require("../utils/ExpressError.js");
 const mbxGeocode = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocode({ accessToken: mapToken });
-const Fuse = require("fuse.js")
+const Fuse = require("fuse.js");
 
 module.exports.index = async (req, res) => {
-    const {search,tag} = req.query;
-    
-    let allListings= await Listing.find({});
+    let { search, tag } = req.query;
+    let allListings = await Listing.find({});
 
-    if(search && search.trim()!== ""){
+    if (search && search.trim() !== "") {
         const fuse = new Fuse(allListings, {
             keys: ["location"],
             threshold: 0.3,
         });
-        
+
         const results = fuse.search(search.trim());
 
         allListings = results.map((result) => result.item);
     }
 
-    if(tag && tag.trim()!==""){
-        allListings = allListings.filter((listing)=> {
-            tag.includes(listing);
-        })
+    if (tag && tag.trim() !== "") {
+        allListings = allListings.filter((listing) =>
+            listing.tags.includes(tag),
+        );
     }
     res.render("listing/listing.ejs", { allListings });
 };
 
 module.exports.renderNewListingForm = (req, res) => {
-    res.render("listing/new.ejs",{listing: { tags: [] }});
+    res.render("listing/new.ejs", { listing: { tags: [] } });
 };
 
 module.exports.showListing = async (req, res) => {
