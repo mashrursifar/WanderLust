@@ -53,6 +53,7 @@ const listingSchema = new Schema({
     tags: {
         type: [String],
         enum: [
+            "Trending",
             "Rooms",
             "Iconic Cities",
             "Mountains",

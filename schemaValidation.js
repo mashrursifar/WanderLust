@@ -13,6 +13,7 @@ module.exports.schema = Joi.object({
         tags: Joi.array()
             .items(
                 Joi.string().valid(
+                    "Trending",
                     "Rooms",
                     "Iconic Cities",
                     "Mountains",
