@@ -16,7 +16,7 @@
                 Current Image: <br>
                 <img src="<%= listing.image.url %>" alt="Listing Image Preview" style="height: 200px; width: 350px;">
             </div>
-            <div>
+            <div class="col-md-7">
                 
                 <label for="image"> Upload Image: </label>
                 <input
@@ -30,11 +30,14 @@
                 <small>Allowed: JPG, JPEG, PNG. Maximum size: 10 MB.</small>
             </div>
             
-            <div>
+            <div class="col-md-5">
                 <label for="price"> Price: </label>
                 <input required type="number" value="<%= listing.price %>" placeholder="Enter the price per day" class="newPostCreate form-control" name="price" id="price" >
         
             </div>
+
+            <!-- Dropdown Tags -->
+            <%- include("../includes/tagsEdit.ejs")%>
          
             <div class="col-md-6">
                 <label for="location" class="form-label"> Location: </label>
